@@ -15,7 +15,9 @@ jobs:
 
       - uses: azure/login@v1
         with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}         
           enable-AzPSSession: true
 
       - name: Deploy ACR
@@ -36,9 +38,7 @@ jobs:
         uses: docker/login-action@v1
         with:
           registry: ${{ secrets.ACR_NAME }}.azurecr.io
-          username: ${{ fromJson(secrets.AZURE_CREDENTIALS).clientId }}
-          password: ${{ fromJson(secrets.AZURE_CREDENTIALS).clientSecret }}
-
+    
       - uses: actions/setup-dotnet@v3
         with:
           dotnet-version: "7.0.x"
